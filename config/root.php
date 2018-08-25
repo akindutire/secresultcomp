@@ -1,7 +1,7 @@
 <?php
 
 
-	$project='cphp/secresultcomp';
+	$project='';
 	
 
 ?>

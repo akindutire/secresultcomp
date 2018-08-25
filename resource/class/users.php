@@ -1185,7 +1185,10 @@ class yall{
 
 		$working_id=self::getdata();
 
-		$sql=mysqli_query($link,"SELECT id,name,code,unit FROM course WHERE dpt_id='$working_id' AND lv_id='$level' ");
+		$sql=mysqli_query($link,"SELECT dpt FROM users WHERE id='$working_id'");
+		list($dpt_id) = mysqli_fetch_row($sql);
+
+		$sql=mysqli_query($link,"SELECT id,name,code,unit FROM course WHERE dpt_id='$dpt_id' AND lv_id='$level' ");
 
 		echo "<table class='w3-table w3-striped w3-small w3-hoverable' id='iscoresheet'>
 
@@ -1828,6 +1831,11 @@ class yall{
 		$link=connect::iconnect();
 
 		$dpt_id=self::cur_dpt();
+
+		$sql = mysqli_query($link, "SELECT id FROM mapping");
+		if(mysqli_num_rows($sql) == 0)
+			mysqli_query($link,"INSERT INTO mapping(id, lecturer_id, course_id) VALUES('null', 0, 0)");
+		
 
 		$sql=mysqli_query($link,"SELECT DISTINCT u.id,u.name,u.mat,u.sex FROM users AS u,mapping AS m WHERE u.dpt='$dpt_id' AND u.id=m.lecturer_id");
 		
